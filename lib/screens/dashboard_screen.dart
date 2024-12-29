@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inventory_management/screens/inventory_screen.dart'; // Make sure to import the InventoryScreen
+import 'package:inventory_management/screens/inventory_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
@@ -15,41 +15,55 @@ class DashboardScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: GridView(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // 2 columns
-            crossAxisSpacing: 16.0, // space between columns
-            mainAxisSpacing: 16.0, // space between rows
+            crossAxisCount: 2, 
+            crossAxisSpacing: 16.0,
+            mainAxisSpacing: 16.0,
           ),
           children: [
             DashboardItem(
               icon: Icons.inventory,
               label: 'Inventory Screen',
               onTap: () {
-                Navigator.pushNamed(context, 'InventoryScreen'); // Navigate to Inventory Screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => InventoryScreen(),
+                  ),
+                );
               },
             ),
             DashboardItem(
               icon: Icons.person,
               label: 'User Information',
               onTap: () {
-                Navigator.pushNamed(context, '/userInformation'); // Navigate to User Information
+                _showWorkInProgressMessage(context);
               },
             ),
             DashboardItem(
               icon: Icons.account_circle,
               label: 'Account',
               onTap: () {
-                Navigator.pushNamed(context, '/account'); // Navigate to Account
+                _showWorkInProgressMessage(context);
               },
             ),
             DashboardItem(
               icon: Icons.add_box,
               label: 'Add Product',
               onTap: () {
-                Navigator.pushNamed(context, '/addProduct'); // Navigate to Add Product
+                _showWorkInProgressMessage(context);
               },
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showWorkInProgressMessage(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Working in Progress'),
+        duration: const Duration(seconds: 2),
       ),
     );
   }

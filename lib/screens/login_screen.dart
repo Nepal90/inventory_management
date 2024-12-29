@@ -18,14 +18,11 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void _handleSignIn(BuildContext context) {
-    // Example validation logic (you can customize this as needed)
     if (_emailController.text.isNotEmpty &&
         _passwordController.text.isNotEmpty &&
         _isEmailValid) {
-      // Navigate to Dashboard Screen and remove the SignInScreen from the navigation stack
       Navigator.pushReplacementNamed(context, 'DashboardScreen');
     } else {
-      // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please enter valid credentials')),
       );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/product_input.dart';
 import '../widgets/product_display.dart';
-import '../widgets/user_info.dart';
 import '../models/product.dart';
 import '../models/user.dart';
 
@@ -21,6 +20,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
     companyName: 'ABC Corp',
   );
   final String deviceId = 'D001';
+  bool showUserInfo = false;
 
   void handleProductFetch(Product product) {
     setState(() {
@@ -36,26 +36,116 @@ class _InventoryScreenState extends State<InventoryScreen> {
     }
   }
 
+  void toggleUserInfo() {
+    setState(() {
+      showUserInfo = !showUserInfo;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Inventory Management'),
+        title: const Text(
+          'Inventory Management',
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProductInput(onProductFetch: handleProductFetch),
+            Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ProductInput(onProductFetch: handleProductFetch),
+              ),
+            ),
             if (currentProduct != null) ...[
               const SizedBox(height: 16),
-              ProductDisplay(
-                product: currentProduct!,
-                onStockUpdate: handleStockUpdate,
+              Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      ProductDisplay(
+                        product: currentProduct!,
+                        onStockUpdate: handleStockUpdate,
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: toggleUserInfo,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 16),
+                        ),
+                        child: Text(
+                          showUserInfo
+                              ? 'Hide User Information'
+                              : 'Show User Information',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
+            ],
+            if (showUserInfo) ...[
               const SizedBox(height: 16),
-              UserInfo(user: user, deviceId: deviceId),
+              Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'User ID: ${user.id}',
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Username: ${user.username}',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Designation: ${user.designation}',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Company Name: ${user.companyName}',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Device ID: $deviceId',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ],
         ),

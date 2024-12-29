@@ -13,7 +13,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   bool _isEmailValid = true;
 
-  // Validate email format
   void _validateEmail(String email) {
     setState(() {
       _isEmailValid =
@@ -22,14 +21,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
   }
 
-  // Handle Sign-Up logic
   void _handleSignUp(BuildContext context) {
     if (_nameController.text.isNotEmpty &&
         _phoneNumberController.text.isNotEmpty &&
         _emailController.text.isNotEmpty &&
         _passwordController.text.isNotEmpty &&
         _isEmailValid) {
-      // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Successfully Registered!'),
@@ -37,12 +34,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       );
 
-      // Navigate back to the Login screen
       Future.delayed(const Duration(seconds: 0), () {
         Navigator.pop(context);
       });
     } else {
-      // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please fill in all fields correctly!'),

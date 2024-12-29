@@ -21,7 +21,8 @@ class _ProductDisplayState extends State<ProductDisplay> {
   @override
   void initState() {
     super.initState();
-    _stockController = TextEditingController(text: widget.product.currentStock.toString());
+    _stockController =
+        TextEditingController(text: widget.product.currentStock.toString());
   }
 
   @override
@@ -32,8 +33,25 @@ class _ProductDisplayState extends State<ProductDisplay> {
 
   void _handleStockUpdate() {
     final newStock = int.tryParse(_stockController.text);
-    if (newStock != null && newStock >= 0) {
+    if (newStock == null || newStock < 0) {
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter a valid stock value.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } else {
+      
       widget.onStockUpdate(newStock);
+
+     
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Stock updated successfully to $newStock.'),
+          backgroundColor: Colors.green,
+        ),
+      );
     }
   }
 
@@ -53,6 +71,10 @@ class _ProductDisplayState extends State<ProductDisplay> {
                   width: 100,
                   height: 100,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(Icons.broken_image,
+                        size: 100, color: Colors.grey);
+                  },
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -72,7 +94,8 @@ class _ProductDisplayState extends State<ProductDisplay> {
             ),
             const SizedBox(height: 16),
             Text('Product ID: ${widget.product.id}'),
-            Text('First Inventory Date: ${widget.product.firstInventoryDate.toLocal()}'),
+            Text(
+                'First Inventory Date: ${widget.product.firstInventoryDate.toLocal()}'),
             Text('Supervisor: ${widget.product.supervisorName}'),
             Text('Current Stock: ${widget.product.currentStock}'),
             const SizedBox(height: 16),
@@ -91,6 +114,11 @@ class _ProductDisplayState extends State<ProductDisplay> {
                 const SizedBox(width: 16),
                 ElevatedButton(
                   onPressed: _handleStockUpdate,
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                  ),
                   child: const Text('Update Stock'),
                 ),
               ],

@@ -21,7 +21,7 @@ class _ProductInputState extends State<ProductInput> {
         id: _productIdController.text,
         name: 'Sample Product',
         description: 'This is a sample product description.',
-        photoUrl: 'https://via.placeholder.com/200',
+        photoUrl: 'https://unsplash.com/photos/silver-macbook-on-white-table-Hin-rzhOdWs', 
         firstInventoryDate: DateTime.now(),
         supervisorName: 'Jane Smith',
         currentStock: 100,
@@ -40,7 +40,7 @@ class _ProductInputState extends State<ProductInput> {
             child: TextFormField(
               controller: _productIdController,
               decoration: const InputDecoration(
-                labelText: 'Enter 5-digit product ID',
+                labelText: 'Enter 5-digit product ID, ex:- U0001.',
                 border: OutlineInputBorder(),
               ),
               validator: (value) {
@@ -57,6 +57,11 @@ class _ProductInputState extends State<ProductInput> {
           const SizedBox(width: 16),
           ElevatedButton(
             onPressed: _handleSubmit,
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+            ),
             child: const Text('Fetch Product'),
           ),
         ],

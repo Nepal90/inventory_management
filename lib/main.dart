@@ -23,9 +23,6 @@ class InventoryApp extends StatelessWidget {
         'SignUpScreen': (context) => SignUpScreen(),
         'InventoryScreen': (context) => const InventoryScreen(),
         'DashboardScreen': (context) => DashboardScreen(),
-      // '/userInformation': (context) => UserInformationScreen(),
-      // '/account': (context) => AccountScreen(),
-      // '/addProduct': (context) => AddProductScreen(),
       },
     );
   }
